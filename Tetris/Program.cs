@@ -16,7 +16,12 @@ namespace Tetris
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Tetris());
+
+            IView view = new Tetris();
+            Model model = new Model();
+            Presenter presenter = new Presenter(view, model);
+            
+            Application.Run((Tetris)view);
         }
     }
 }

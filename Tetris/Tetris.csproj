@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0810E75F-C4A8-43F3-9F23-24D7F5E3547A}</ProjectGuid>
+    <ProjectGuid>{DEA63A2A-2A64-4A02-9535-C3976EB44B4D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Tetris</RootNamespace>
     <AssemblyName>Tetris</AssemblyName>
@@ -46,12 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameEngine\Field.cs" />
+    <Compile Include="GameEngine\Figure.cs" />
     <Compile Include="Tetris.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Tetris.Designer.cs">
       <DependentUpon>Tetris.cs</DependentUpon>
     </Compile>
+    <Compile Include="MVPpattern\IView.cs" />
+    <Compile Include="GameEngine\SinglePixel.cs" />
+    <Compile Include="MVPpattern\Model.cs" />
+    <Compile Include="MVPpattern\Presenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Tetris.resx">
@@ -79,5 +85,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
