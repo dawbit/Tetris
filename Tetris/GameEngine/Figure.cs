@@ -17,13 +17,13 @@ namespace Tetris
         public Figure()
         {
             Random rand = new Random();
-            int k = rand.Next(0, 6);
-            coordinates(k);
+            int tertimino = rand.Next(0, 6);
+            Coordinates(tertimino);
         }
 
-        private void coordinates(int k)
+        private void Coordinates(int tertimino)
         {
-            switch (k)
+            switch (tertimino)
             {
                 case 0:
                     // Tertimino "l"
@@ -31,8 +31,8 @@ namespace Tetris
                     check_floor = new int[2] { 4, 4 };
                     check_left = new int[8] { 3, 0, 3, 1, 3, 2, 3, 3 };
                     check_right = new int[8] { 5, 0, 5, 1, 5, 2, 5, 3, };
-
                     break;
+
                 case 1:
                     // Tertimino "O"
                     start = new int[8] { 4, 0, 5, 0, 4, 1, 5, 1 };
@@ -40,6 +40,7 @@ namespace Tetris
                     check_left = new int[4] { 3, 0, 3, 1 };
                     check_right = new int[4] { 6, 0, 6, 1 };
                     break;
+
                 case 2:
                     // Tertimino "T"
                     start = new int[8] { 4, 0, 5, 0, 6, 0, 5, 1 };
@@ -47,6 +48,7 @@ namespace Tetris
                     check_left = new int[4] { 3, 0, 4, 1 };
                     check_right = new int[4] { 7, 0, 6, 1 };
                     break;
+
                 case 3:
                     // Tertimino "" do poprawy
                     start = new int[8] { 4, 0, 5, 0, 5, 1, 5, 2 };
@@ -54,6 +56,7 @@ namespace Tetris
                     check_left = new int[6] { 3, 0, 4, 1, 4, 2 };
                     check_right = new int[6] { 6, 0, 6, 1, 6, 2 };
                     break;
+
                 case 4:
                     // Tertimino "do poprawy
                     start = new int[8] { 5, 0, 4, 0, 4, 1, 4, 2 };
@@ -61,6 +64,7 @@ namespace Tetris
                     check_left = new int[6] { 3, 0, 3, 1, 3, 2 };
                     check_right = new int[6] { 6, 0, 5, 1, 5, 2 };
                     break;
+
                 case 5:
                     // Tertimino "Z"
                     start = new int[8] { 4, 0, 5, 0, 5, 1, 6, 1 };
@@ -68,6 +72,7 @@ namespace Tetris
                     check_left = new int[4] { 3, 0, 4, 1 };
                     check_right = new int[4] { 6, 0, 7, 1 };
                     break;
+
                 case 6:
                     // Tertimino "S"
                     start = new int[8] { 5, 0, 4, 0, 4, 1, 3, 1 };
@@ -78,88 +83,88 @@ namespace Tetris
 
             }
         }
-        public void coordinates_down()
+
+        public void Coordinates_down()
         {
-            for (int j = 0; j < check_floor.Length; j++)
+            for (int fl = 0; fl < check_floor.Length; fl++)
             {
-                j++;
-                this.check_floor[j] += 1;
+                fl++;
+                this.check_floor[fl] += 1;
 
             }
-            for (int k = 0; k < check_left.Length; k++)
+            for (int l = 0; l < check_left.Length; l++)
             {
-                k++;
-                check_left[k] = check_left[k] + 1;
-                check_right[k] = check_right[k] + 1;
+                l++;
+                check_left[l] = check_left[l] + 1;
+                check_right[l] = check_right[l] + 1;
             }
-            for (int i = 0; i < 8; i++)
+            for (int s = 0; s < start.Length; s++)
             {
-                i++;
-                this.start[i] = start[i] + 1;
-
-            }
-        }
-        public void coordinates_left()
-        {
-            for (int j = 0; j < check_left.Length - 1; j++)
-            {
-                check_left[j] = check_left[j] - 1;
-                check_right[j] = check_right[j] - 1;
-                j++;
-
-            }
-            for (int k = 0; k < check_floor.Length; k++)
-            {
-
-                check_floor[k] = check_floor[k] - 1;
-                k++;
-            }
-
-            for (int i = 0; i < start.Length; i++)
-            {
-                this.start[i] = start[i] - 1;
-                i++;
-            }
-        }
-        public void coordinates_right()
-        {
-            for (int j = 0; j < check_left.Length - 1; j++)
-            {
-                check_left[j] = check_left[j] + 1;
-                check_right[j] = check_right[j] + 1;
-                j++;
-
-            }
-            for (int k = 0; k < check_floor.Length; k++)
-            {
-
-                check_floor[k] = check_floor[k] + 1;
-                k++;
-            }
-
-            for (int i = 0; i < start.Length; i++)
-            {
-                this.start[i] = start[i] + 1;
-                i++;
+                s++;
+                this.start[s] = start[s] + 1;
             }
         }
 
-        public int[] coordinate()
+        public void Coordinates_left()
+        {
+            for (int l = 0; l < check_left.Length - 1; l++)
+            {
+                check_left[l] = check_left[l] - 1;
+                check_right[l] = check_right[l] - 1;
+                l++;
+
+            }
+            for (int fl = 0; fl < check_floor.Length; fl++)
+            {
+                check_floor[fl] = check_floor[fl] - 1;
+                fl++;
+            }
+
+            for (int s = 0; s < start.Length; s++)
+            {
+                this.start[s] = start[s] - 1;
+                s++;
+            }
+        }
+
+        public void Coordinates_right()
+        {
+            for (int l = 0; l < check_left.Length - 1; l++)
+            {
+                check_left[l] = check_left[l] + 1;
+                check_right[l] = check_right[l] + 1;
+                l++;
+
+            }
+            for (int fl = 0; fl < check_floor.Length; fl++)
+            {
+                check_floor[fl] = check_floor[fl] + 1;
+                fl++;
+            }
+
+            for (int s = 0; s < start.Length; s++)
+            {
+                this.start[s] = start[s] + 1;
+                s++;
+            }
+        }
+
+        public int[] Coordinate()
         {
             return start;
         }
 
-        public int[] check_floor_down()
+        public int[] Check_floor()
         {
             return check_floor;
         }
 
-        public int[] check_left_left()
+        public int[] Check_left()
         {
             return check_left;
         }
 
-        public int[] check_right_right()
+        public int[] Check_right()
         {
             return check_right;
         }

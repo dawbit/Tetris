@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+
 namespace Tetris
 {
     class Field
@@ -18,13 +19,25 @@ namespace Tetris
         private bool move_availble = true;
         private bool full_line = false;
 
-        private static readonly int Width = 11;
-        private static readonly int Height = 20;
-        private static readonly int WxH = 220;
+        private static int Width = 11;
+        private static int Height = 20;
+        private static int WxH = 220;
         private int Score;
 
         private readonly SinglePixel[,] Single_pixel = new SinglePixel[Width, Height];
         private readonly string Background_Color = "DarkSlateGray";
+        private readonly string[] Colors_Table = { "Cyan",
+                                                "DarkCyan",
+                                                "CadetBlue",
+                                                "LightSteelBlue",
+                                                "SteelBlue",
+                                                "LightSkyBlue",
+                                                "SkyBlue",
+                                                "DeepSkyBlue",
+                                                "DodgerBlue",
+                                                "RoyalBlue",
+                                                "Teal" };
+        private string tertimino_color;
 
         #endregion
 
@@ -47,7 +60,6 @@ namespace Tetris
         #region methods
         public Rectangle[] Square_dimensions()
         {
-
             int l = 0;
             tab_rec = new Rectangle[WxH];
 
@@ -66,7 +78,8 @@ namespace Tetris
         public Color[] Color_name()
         {
             int l = 0;
-            color_field = new Color[250];
+            color_field = new Color[WxH];
+
             for (int i = 0; i < Width; i++)
             {
                 for (int j = 0; j < Height; j++)
@@ -79,42 +92,46 @@ namespace Tetris
             return color_field;
         }
 
-        public void Draw_figure()
+        public void Draw_Tertimino()
         {
+            Random r = new Random();
+            int random_color = r.Next(0, 10);
+            tertimino_color = Colors_Table[random_color];
+
             figure = new Figure();
-            for (int i = 0; i < figure.coordinate().Length; i++)
+
+            for (int i = 0; i < figure.Coordinate().Length; i++)
             {
-                if (Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Get_color() == "Red")
+                if (Single_pixel[figure.Coordinate()[i], figure.Coordinate()[i + 1]].Get_color() != Background_Color)
                 {
                     game_over = true;
                 }
                 i++;
-
             }
+
             if (game_over != true)
             {
 
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < figure.Coordinate().Length; i++)
                 {
-                    Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Change_color("Red");
+                    Single_pixel[figure.Coordinate()[i], figure.Coordinate()[i + 1]].Change_color(Colors_Table[random_color]);
                     i++;
                 }
             }
-
         }
 
         public int Figure_down()
         {
             try
             {
-                for (int j = 0; j < figure.check_floor_down().Length; j++)
+                //for (int j = 0; j < figure.Check_floor().Length; j++)
+                //{
+                //    Single_pixel[figure.Check_floor()[j], figure.Check_floor()[j + 1]].Change_color(Single_pixel[figure.Check_floor()[j], figure.Check_floor()[j + 1]].Get_color());
+                //    j++;
+                //}
+                for (int l = 0; l < figure.Check_floor().Length; l++)
                 {
-                    Single_pixel[figure.check_floor_down()[j], figure.check_floor_down()[j + 1]].Change_color(Single_pixel[figure.check_floor_down()[j], figure.check_floor_down()[j + 1]].Get_color());
-                    j++;
-                }
-                for (int l = 0; l < figure.check_floor_down().Length; l++)
-                {
-                    if (Single_pixel[figure.check_floor_down()[l], figure.check_floor_down()[l + 1]].Get_color() == "Red")
+                    if (Single_pixel[figure.Check_floor()[l], figure.Check_floor()[l + 1]].Get_color() != Background_Color)
                     {
                         stop_moving_down = true;
                     }
@@ -123,19 +140,16 @@ namespace Tetris
                 }
                 if (stop_moving_down == false)
                 {
-                    for (int i = 0; i < 8; i++)
+                    for (int i = 0; i < figure.Coordinate().Length; i++)
                     {
-                        Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Change_color(Background_Color);
+                        Single_pixel[figure.Coordinate()[i], figure.Coordinate()[i + 1]].Change_color(Background_Color);
                         i++;
                     }
+                    figure.Coordinates_down();
 
-                    figure.coordinates_down();
-
-
-
-                    for (int i = 0; i < 8; i++)
+                    for (int i = 0; i < figure.Coordinate().Length; i++)
                     {
-                        Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Change_color("Red");
+                        Single_pixel[figure.Coordinate()[i], figure.Coordinate()[i + 1]].Change_color(tertimino_color);
                         i++;
                     }
                 }
@@ -143,14 +157,13 @@ namespace Tetris
                 {
                     stop_moving_down = false;
                     Line_by_line();
-                    Draw_figure();
+                    Draw_Tertimino();
                 }
             }
             catch (System.IndexOutOfRangeException)
             {
                 Line_by_line();
-                Draw_figure();
-
+                Draw_Tertimino();
             }
 
             return Score;
@@ -162,14 +175,20 @@ namespace Tetris
         {
             try
             {
-                for (int j = 0; j < figure.check_left_left().Length - 1; j++)
+                //for (int j = 0; j < figure.Check_left().Length - 1; j++)
+                //{
+                //    //Single_pixel[figure.Check_left()[j], figure.Check_left()[j + 1]].Change_color(Single_pixel[figure.Check_left()[j], figure.Check_left()[j + 1]].Get_color());
+                //    //j++;
+                //    if (Single_pixel[figure.Check_left()[l], figure.check_sides_left_left()[l + 1]].get_color() != "Black")
+                //    {
+                //        move_left = false;
+                //    }
+                //    l++;
+
+                //}
+                for (int l = 0; l < figure.Check_left().Length; l++)
                 {
-                    Single_pixel[figure.check_left_left()[j], figure.check_left_left()[j + 1]].Change_color(Single_pixel[figure.check_left_left()[j], figure.check_left_left()[j + 1]].Get_color());
-                    j++;
-                }
-                for (int l = 0; l < figure.check_left_left().Length; l++)
-                {
-                    if (Single_pixel[figure.check_left_left()[l], figure.check_left_left()[l + 1]].Get_color() == "Red")
+                    if (Single_pixel[figure.Check_left()[l], figure.Check_left()[l + 1]].Get_color() != Background_Color)
                     {
                         move_availble = false;
                     }
@@ -178,18 +197,17 @@ namespace Tetris
                 }
                 if (move_availble == true)
                 {
-                    for (int i = 0; i < 8; i++)
+                    for (int i = 0; i < figure.Coordinate().Length; i++)
                     {
-                        Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Change_color(Background_Color);
+                        Single_pixel[figure.Coordinate()[i], figure.Coordinate()[i + 1]].Change_color(Background_Color);
                         i++;
                     }
 
-                    figure.coordinates_left();
+                    figure.Coordinates_left();
 
-
-                    for (int i = 0; i < 8; i++)
+                    for (int i = 0; i < figure.Coordinate().Length; i++)
                     {
-                        Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Change_color("Red");
+                        Single_pixel[figure.Coordinate()[i], figure.Coordinate()[i + 1]].Change_color(tertimino_color);
                         i++;
                     }
                 }
@@ -207,14 +225,14 @@ namespace Tetris
         {
             try
             {
-                for (int j = 0; j < figure.check_right_right().Length - 1; j++)
+                //for (int j = 0; j < figure.Check_right().Length - 1; j++)
+                //{
+                //    Single_pixel[figure.Check_right()[j], figure.Check_right()[j + 1]].Change_color(Single_pixel[figure.Check_right()[j], figure.Check_right()[j + 1]].Get_color());
+                //    j++;
+                //}
+                for (int l = 0; l < figure.Check_right().Length; l++)
                 {
-                    Single_pixel[figure.check_right_right()[j], figure.check_right_right()[j + 1]].Change_color(Single_pixel[figure.check_right_right()[j], figure.check_right_right()[j + 1]].Get_color());
-                    j++;
-                }
-                for (int l = 0; l < figure.check_right_right().Length; l++)
-                {
-                    if (Single_pixel[figure.check_right_right()[l], figure.check_right_right()[l + 1]].Get_color() == "Red")
+                    if (Single_pixel[figure.Check_right()[l], figure.Check_right()[l + 1]].Get_color() != Background_Color)
                     {
                         move_availble = false;
                     }
@@ -223,18 +241,17 @@ namespace Tetris
                 }
                 if (move_availble == true)
                 {
-                    for (int i = 0; i < 8; i++)
+                    for (int i = 0; i < figure.Coordinate().Length; i++)
                     {
-                        Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Change_color(Background_Color);
+                        Single_pixel[figure.Coordinate()[i], figure.Coordinate()[i + 1]].Change_color(Background_Color);
                         i++;
                     }
 
-                    figure.coordinates_right();
+                    figure.Coordinates_right();
 
-
-                    for (int i = 0; i < 8; i++)
+                    for (int i = 0; i < figure.Coordinate().Length; i++)
                     {
-                        Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Change_color("Red");
+                        Single_pixel[figure.Coordinate()[i], figure.Coordinate()[i + 1]].Change_color(tertimino_color);
                         i++;
                     }
                 }

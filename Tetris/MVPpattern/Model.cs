@@ -22,7 +22,7 @@ namespace Tetris
 
         public void Startgame()
         {
-            field.Draw_figure();
+            field.Draw_Tertimino();
         }
 
         public int Figure_down()

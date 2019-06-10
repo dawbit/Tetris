@@ -34,6 +34,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label_score = new System.Windows.Forms.Label();
             this.scoreboard = new System.Windows.Forms.Label();
+            this.instruction_label = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // panel_field
@@ -87,12 +88,25 @@
             this.scoreboard.Text = "0";
             this.scoreboard.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // instruction_label
+            // 
+            this.instruction_label.AutoSize = true;
+            this.instruction_label.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F);
+            this.instruction_label.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.instruction_label.Location = new System.Drawing.Point(12, 591);
+            this.instruction_label.Name = "instruction_label";
+            this.instruction_label.Size = new System.Drawing.Size(202, 51);
+            this.instruction_label.TabIndex = 4;
+            this.instruction_label.Text = "Game instruction:\r\nclick [A] or [←] to turn left,\r\nclick [D] or [→] to turn right" +
+    "\r\n";
+            // 
             // Tetris
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.ClientSize = new System.Drawing.Size(292, 603);
+            this.ClientSize = new System.Drawing.Size(292, 652);
+            this.Controls.Add(this.instruction_label);
             this.Controls.Add(this.scoreboard);
             this.Controls.Add(this.label_score);
             this.Controls.Add(this.button_start);
@@ -116,9 +130,9 @@
         private System.Windows.Forms.Panel panel_field;
         private System.Windows.Forms.Button button_start;
         private System.Windows.Forms.Timer timer1;
-        //private System.Windows.Forms.Label score;
         private System.Windows.Forms.Label label_score;
         private System.Windows.Forms.Label scoreboard;
+        private System.Windows.Forms.Label instruction_label;
     }
 }
 

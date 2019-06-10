@@ -36,7 +36,7 @@ namespace Tetris
         #endregion
 
         #region private var
-        private int speed = 500;
+        private int speed = 200;
         private int WxH = 220;
         private bool timerticks = false;
 
@@ -114,7 +114,6 @@ namespace Tetris
                 Load_Panel?.Invoke();
                 timer1.Stop();
                 panel_field.Invalidate();
-                MessageBox.Show("Game over");
                 button_start.Enabled = true;
             }
 
