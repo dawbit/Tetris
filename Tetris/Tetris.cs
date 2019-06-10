@@ -9,147 +9,132 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.IO;
+
 namespace Tetris
 {
     public partial class Tetris : Form, IView
     {
         #region interface
-        public Rectangle[] rec { get; set; }
-        public Color[] color { get; set; }
-        public bool end_game{get;set;}
-        Pen p;
-        public int licznik { get { return int.Parse(score.Text); } set { score.Text = value.ToString(); } }
+        public Rectangle[] Rec { get; set; }
+        public Color[] Color { get; set; }
+        public bool Game_over { get; set; }
 
-        protected override CreateParams CreateParams
-        {
+        public int Score {
             get
             {
-                CreateParams handleParams = base.CreateParams;
-                handleParams.ExStyle |= 0x02000000;
-                return handleParams;
+                return int.Parse(scoreboard.Text);
+            }
+            set
+            {
+                scoreboard.Text = value.ToString();
             }
         }
-        
-        SolidBrush myBrush;
+
+        SolidBrush brush;
+        Pen pen;
+        #endregion
+
+        #region private var
+        private int speed = 500;
+        private int WxH = 220;
+        private bool timerticks = false;
+
         #endregion
 
         public Tetris()
         {
             InitializeComponent();
-            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, panel1, new object[] { true });
+            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, 
+                null, panel_field, new object[] { true }); 
+            string path = Directory.GetCurrentDirectory();
+            Console.WriteLine(path);
+
+            //ograniczenie migotania ekranu
+
         }
 
+        #region events
         public event Action Load_Panel;
         public event Action Start_game;
         public event Action Move_Figure_down;
         public event Action End_game_check;
         public event Action Left_Arrow;
         public event Action Right_Arrow;
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            
-        }
+
+        #endregion
+
+        #region private
 
         private void Tetris_Load(object sender, EventArgs e)
         {
             Load_Panel?.Invoke();
         }
-        private void panel1_Paint(object sender, PaintEventArgs e)
+
+        private void Panel_Paint(object sender, PaintEventArgs e)
         {
-            for (int i = 0; i < 220; i++)
+            for (int i = 0; i < WxH; i++)
             {
-                    p = new Pen(color[i]);
-                    myBrush = new SolidBrush(color[i]);
-                    e.Graphics.DrawRectangle(p, rec[i]);
-                    e.Graphics.FillRectangle(myBrush, rec[i]);
-                    p.Dispose();
+                pen = new Pen(Color[i]);
+                brush = new SolidBrush(Color[i]);
+                e.Graphics.DrawRectangle(pen, Rec[i]);
+                e.Graphics.FillRectangle(brush, Rec[i]);
+                pen.Dispose();
             }
-            
-
         }
-        private bool _ticks = false;
 
-        private void button_start_game_Click(object sender, EventArgs e)
+        private void Button_start_game_Click(object sender, EventArgs e)
         {
             button_start.Enabled = false;
-
-            score.Text = ("0");
-            end_game = false;
+            scoreboard.Text = ("0");
+            Game_over = false;
             Start_game?.Invoke();
-            panel1.Invalidate();
-            timer1.Interval=100;
+            panel_field.Invalidate();
+            timer1.Interval = speed;
             timer1.Start();
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             End_game_check?.Invoke();
-            if (end_game == false)
+
+            if (Game_over == false)
             {
-                _ticks = true;
-                if (_ticks == true)
+                timerticks = true;
+                if (timerticks == true)
                 {
                     Move_Figure_down?.Invoke();
-                    panel1.Invalidate();
-                    _ticks = false;
+                    panel_field.Invalidate();
+                    timerticks = false;
                 }
             }
             else
             {
-                panel1.Invalidate();
+                panel_field.Invalidate();
                 Load_Panel?.Invoke();
                 timer1.Stop();
-                panel1.Invalidate();
-                MessageBox.Show("Koniec Gry");
+                panel_field.Invalidate();
+                MessageBox.Show("Game over");
                 button_start.Enabled = true;
-                score.Text = ("0");
             }
 
         }
-
-
 
         private void Tetris_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Left)
+            if (e.KeyCode == Keys.Left || e.KeyCode == Keys.A)
             {
+                e.SuppressKeyPress = true;
                 Left_Arrow?.Invoke();
-
-                panel1.Invalidate();
+                panel_field.Invalidate();
             }
-            else if (e.KeyCode == Keys.Right)
+            else if (e.KeyCode == Keys.Right || e.KeyCode == Keys.D)
             {
+                e.SuppressKeyPress = true;
                 Right_Arrow?.Invoke();
-
-                panel1.Invalidate();
+                panel_field.Invalidate();
             }
-            //else if (e.KeyCode == Keys.Down)
-            //{
-            //    timer1.Interval = 100;
-            //}
         }
-
-
-
-
-
-        //private void Tetris_KeyUp(object sender, KeyEventArgs e)
-        //{
-        //    if (e.KeyCode == Keys.Down)
-        //    {
-
-        //        timer1.Interval = 800;
-        //    }
-        //}
-
-        //private Keys m_keyCode;
-        //
-        //private void Tetris_KeyPress(object sender, KeyPressEventArgs e)
-        //{
-        //    if (this.m_keyCode == Keys.Down)
-        //    {
-        //        timer1.Interval = 100;
-        //    }
-        //}
     }
+    #endregion
 }

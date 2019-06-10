@@ -8,10 +8,10 @@ namespace Tetris
 {
     interface IView
     {
-        System.Drawing.Rectangle[] rec { get; set; }
-        System.Drawing.Color[] color { get; set; }
-        bool end_game { get; set; }
-        int licznik { get; set; }
+        System.Drawing.Rectangle[] Rec { get; set; }
+        System.Drawing.Color[] Color { get; set; }
+        bool Game_over { get; set; }
+        int Score { get; set; }
 
         event Action Load_Panel;
         event Action Start_game;

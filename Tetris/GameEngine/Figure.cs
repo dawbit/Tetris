@@ -9,118 +9,159 @@ namespace Tetris
 {
     class Figure
     {
-        //private Color color = Color.White;
-        private int index_figury;
-        private int[] wspolrzedne_startowe;
-        private int[] check_field;
-        private int[] check_sides_left;
-        private int[] check_sides_right;
+        private int[] start;
+        private int[] check_floor;
+        private int[] check_left;
+        private int[] check_right;
+
         public Figure()
         {
-            //Draw_figure();
             Random rand = new Random();
             int k = rand.Next(0, 6);
-            //int k = 6;
-            index_figury = k;
-            figura_wspolrzedne();
+            coordinates(k);
         }
 
-        private void figura_wspolrzedne()
+        private void coordinates(int k)
         {
-                    // Tertimino "l"
-                    wspolrzedne_startowe = new int[8] { 4, 0, 4, 1, 4, 2, 4, 3 };
-                    check_field = new int[2] { 4, 4 };
-                    check_sides_left = new int[8] { 3, 0, 3, 1, 3, 2, 3, 3 };
-                    check_sides_right = new int[8] { 5, 0, 5, 1, 5, 2, 5, 3, };
-    
-        }
-        public void figura_wspolrzedne_down()
-        {
-            for (int j =0; j < check_field.Length; j++)
+            switch (k)
             {
-                j++;
-                this.check_field[j] += 1;
+                case 0:
+                    // Tertimino "l"
+                    start = new int[8] { 4, 0, 4, 1, 4, 2, 4, 3 };
+                    check_floor = new int[2] { 4, 4 };
+                    check_left = new int[8] { 3, 0, 3, 1, 3, 2, 3, 3 };
+                    check_right = new int[8] { 5, 0, 5, 1, 5, 2, 5, 3, };
+
+                    break;
+                case 1:
+                    // Tertimino "O"
+                    start = new int[8] { 4, 0, 5, 0, 4, 1, 5, 1 };
+                    check_floor = new int[4] { 4, 2, 5, 2 };
+                    check_left = new int[4] { 3, 0, 3, 1 };
+                    check_right = new int[4] { 6, 0, 6, 1 };
+                    break;
+                case 2:
+                    // Tertimino "T"
+                    start = new int[8] { 4, 0, 5, 0, 6, 0, 5, 1 };
+                    check_floor = new int[6] { 4, 1, 6, 1, 5, 2 };
+                    check_left = new int[4] { 3, 0, 4, 1 };
+                    check_right = new int[4] { 7, 0, 6, 1 };
+                    break;
+                case 3:
+                    // Tertimino "" do poprawy
+                    start = new int[8] { 4, 0, 5, 0, 5, 1, 5, 2 };
+                    check_floor = new int[4] { 4, 1, 5, 3 };
+                    check_left = new int[6] { 3, 0, 4, 1, 4, 2 };
+                    check_right = new int[6] { 6, 0, 6, 1, 6, 2 };
+                    break;
+                case 4:
+                    // Tertimino "do poprawy
+                    start = new int[8] { 5, 0, 4, 0, 4, 1, 4, 2 };
+                    check_floor = new int[4] { 4, 3, 5, 1 };
+                    check_left = new int[6] { 3, 0, 3, 1, 3, 2 };
+                    check_right = new int[6] { 6, 0, 5, 1, 5, 2 };
+                    break;
+                case 5:
+                    // Tertimino "Z"
+                    start = new int[8] { 4, 0, 5, 0, 5, 1, 6, 1 };
+                    check_floor = new int[6] { 4, 1, 5, 2, 6, 2 };
+                    check_left = new int[4] { 3, 0, 4, 1 };
+                    check_right = new int[4] { 6, 0, 7, 1 };
+                    break;
+                case 6:
+                    // Tertimino "S"
+                    start = new int[8] { 5, 0, 4, 0, 4, 1, 3, 1 };
+                    check_floor = new int[6] { 3, 2, 4, 2, 5, 1 };
+                    check_left = new int[4] { 3, 0, 2, 1 };
+                    check_right = new int[4] { 6, 0, 5, 1 };
+                    break;
 
             }
-            for (int k = 0; k < check_sides_left.Length; k++)
+        }
+        public void coordinates_down()
+        {
+            for (int j = 0; j < check_floor.Length; j++)
+            {
+                j++;
+                this.check_floor[j] += 1;
+
+            }
+            for (int k = 0; k < check_left.Length; k++)
             {
                 k++;
-                check_sides_left[k] = check_sides_left[k] + 1;
-                check_sides_right[k] = check_sides_right[k] + 1;
+                check_left[k] = check_left[k] + 1;
+                check_right[k] = check_right[k] + 1;
             }
             for (int i = 0; i < 8; i++)
-            { 
+            {
                 i++;
-                this.wspolrzedne_startowe[i] = wspolrzedne_startowe[i] + 1;
-                
+                this.start[i] = start[i] + 1;
+
             }
         }
-        public void figura_wspolrzedne_left()
+        public void coordinates_left()
         {
-            for (int j = 0; j < check_sides_left.Length-1; j++)
+            for (int j = 0; j < check_left.Length - 1; j++)
             {
-                check_sides_left[j] = check_sides_left[j] - 1;
-                check_sides_right[j] = check_sides_right[j] - 1;
+                check_left[j] = check_left[j] - 1;
+                check_right[j] = check_right[j] - 1;
                 j++;
 
             }
-            for (int k = 0; k < check_field.Length; k++)
+            for (int k = 0; k < check_floor.Length; k++)
             {
 
-                check_field[k] = check_field[k] - 1;
+                check_floor[k] = check_floor[k] - 1;
                 k++;
             }
 
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < start.Length; i++)
             {
-                this.wspolrzedne_startowe[i] = wspolrzedne_startowe[i] -1;
+                this.start[i] = start[i] - 1;
                 i++;
             }
         }
-        public void figura_wspolrzedne_right()
+        public void coordinates_right()
         {
-            for (int j = 0; j < check_sides_left.Length - 1; j++)
+            for (int j = 0; j < check_left.Length - 1; j++)
             {
-                check_sides_left[j] = check_sides_left[j] +1;
-                check_sides_right[j] = check_sides_right[j] +1;
+                check_left[j] = check_left[j] + 1;
+                check_right[j] = check_right[j] + 1;
                 j++;
 
             }
-            for (int k = 0; k < check_field.Length; k++)
+            for (int k = 0; k < check_floor.Length; k++)
             {
 
-                check_field[k] = check_field[k] +1;
+                check_floor[k] = check_floor[k] + 1;
                 k++;
             }
 
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < start.Length; i++)
             {
-                this.wspolrzedne_startowe[i] = wspolrzedne_startowe[i] +1;
+                this.start[i] = start[i] + 1;
                 i++;
             }
         }
 
-        public int[] wspolrzedne()
+        public int[] coordinate()
         {
-            return wspolrzedne_startowe;
+            return start;
         }
-        public int[] check_field_down()
-        {
-            return check_field;
-        }
-        public int[] check_sides_left_left()
-        {
-            return check_sides_left;
-        }
-        public int[] check_sides_right_right()
-        {
-            return check_sides_right;
-        }
-        public int get_index_figury()
-        {
-            return index_figury;
-        }
-            
 
+        public int[] check_floor_down()
+        {
+            return check_floor;
+        }
+
+        public int[] check_left_left()
+        {
+            return check_left;
+        }
+
+        public int[] check_right_right()
+        {
+            return check_right;
+        }
     }
 }

@@ -11,8 +11,9 @@ namespace Tetris
     {
         Rectangle rec;
         private Color color;
-        private readonly int x = 10;
-        private readonly int y = 10;
+
+        private readonly int x = 1;
+        private readonly int y = 1;
         private const int dimension = 20;
 
         public SinglePixel(int x, int y, string color)
@@ -22,22 +23,25 @@ namespace Tetris
             this.color = Color.DarkSlateGray;
         }
 
-        public Color check_color()
+        public Rectangle Square_return()
+        {
+            return rec = new Rectangle(x, y, dimension, dimension);
+        }
+
+        public Color Check_color()
         {
             return color;
         }
-        public Rectangle square_return()
-        {
-            return rec = new Rectangle(x, y, dimension, dimension);
 
-        }
-        public void change_color(string name)
+        public void Change_color(string name)
         {
             this.color = Color.FromName(name);
         }
-        public string get_color()
+
+        public string Get_color()
         {
             return color.Name;
         }
+
     }
 }

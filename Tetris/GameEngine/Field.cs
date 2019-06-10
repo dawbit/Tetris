@@ -8,66 +8,83 @@ namespace Tetris
 {
     class Field
     {
+        #region private
         private Figure figure;
         private Rectangle[] tab_rec;
         private Color[] color_field;
+
         private bool stop_moving_down = false;
         private bool game_over = false;
-        private SinglePixel[,] tab_pixel= new SinglePixel[11, 20];
-        private int licznik;
-        //private string background_Color = "DarkSlateGray";
-        private string background_Color = "DarkSlateGray";
+        private bool move_availble = true;
+        private bool full_line = false;
 
+        private static readonly int Width = 11;
+        private static readonly int Height = 20;
+        private static readonly int WxH = 220;
+        private int Score;
+
+        private readonly SinglePixel[,] Single_pixel = new SinglePixel[Width, Height];
+        private readonly string Background_Color = "DarkSlateGray";
+
+        #endregion
+
+        #region field
         public Field()
         {
-            licznik = 0;
+            Score = 0;
 
-            for (int i= 0; i<11; i++)
+            for (int i = 0; i < Width; i++)
             {
-                for (int j=0; j < 20; j++)
+                for (int j = 0; j < Height; j++)
                 {
-                    tab_pixel[i, j] = new SinglePixel(i,j,background_Color);
+                    Single_pixel[i, j] = new SinglePixel(i, j, Background_Color);
                 }
             }
         }
-        public Rectangle[] square_dimensions()
+
+        #endregion
+
+        #region methods
+        public Rectangle[] Square_dimensions()
         {
-            
+
             int l = 0;
-            tab_rec = new Rectangle[220];
-            for (int i = 0; i < 11; i++)
+            tab_rec = new Rectangle[WxH];
+
+            for (int i = 0; i < Width; i++)
             {
-                for (int j = 0; j < 20; j++)
+                for (int j = 0; j < Height; j++)
                 {
-                    tab_rec[l] = tab_pixel[i, j].square_return();
+                    tab_rec[l] = Single_pixel[i, j].Square_return();
                     l++;
                 }
 
             }
             return tab_rec;
         }
-        public Color[] color_name()
+
+        public Color[] Color_name()
         {
             int l = 0;
             color_field = new Color[250];
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i < Width; i++)
             {
-                for (int j = 0; j < 20; j++)
+                for (int j = 0; j < Height; j++)
                 {
-                    color_field[l] = tab_pixel[i, j].check_color();
+                    color_field[l] = Single_pixel[i, j].Check_color();
                     l++;
                 }
-                
+
             }
             return color_field;
         }
-        
+
         public void Draw_figure()
         {
             figure = new Figure();
-            for (int i = 0; i < figure.wspolrzedne().Length; i++)
+            for (int i = 0; i < figure.coordinate().Length; i++)
             {
-                if (tab_pixel[figure.wspolrzedne()[i], figure.wspolrzedne()[i + 1]].get_color()=="Red")
+                if (Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Get_color() == "Red")
                 {
                     game_over = true;
                 }
@@ -79,69 +96,201 @@ namespace Tetris
 
                 for (int i = 0; i < 8; i++)
                 {
-                    tab_pixel[figure.wspolrzedne()[i], figure.wspolrzedne()[i + 1]].change_color("Red");
+                    Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Change_color("Red");
                     i++;
                 }
             }
 
         }
-        public int figure_down()
+
+        public int Figure_down()
         {
             try
             {
-                for (int j = 0; j < figure.check_field_down().Length; j++)
+                for (int j = 0; j < figure.check_floor_down().Length; j++)
                 {
-                    tab_pixel[figure.check_field_down()[j], figure.check_field_down()[j+1]].change_color(tab_pixel[figure.check_field_down()[j], figure.check_field_down()[j + 1]].get_color());
-                        j++;
+                    Single_pixel[figure.check_floor_down()[j], figure.check_floor_down()[j + 1]].Change_color(Single_pixel[figure.check_floor_down()[j], figure.check_floor_down()[j + 1]].Get_color());
+                    j++;
                 }
-                for (int l= 0; l < figure.check_field_down().Length; l++)
+                for (int l = 0; l < figure.check_floor_down().Length; l++)
                 {
-                    if(tab_pixel[figure.check_field_down()[l], figure.check_field_down()[l + 1]].get_color() == "Red")
+                    if (Single_pixel[figure.check_floor_down()[l], figure.check_floor_down()[l + 1]].Get_color() == "Red")
                     {
                         stop_moving_down = true;
                     }
                     l++;
-                    
+
                 }
                 if (stop_moving_down == false)
                 {
                     for (int i = 0; i < 8; i++)
                     {
-                        tab_pixel[figure.wspolrzedne()[i], figure.wspolrzedne()[i + 1]].change_color(background_Color);
+                        Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Change_color(Background_Color);
                         i++;
                     }
 
-                    figure.figura_wspolrzedne_down();
+                    figure.coordinates_down();
 
 
 
                     for (int i = 0; i < 8; i++)
                     {
-                        tab_pixel[figure.wspolrzedne()[i], figure.wspolrzedne()[i + 1]].change_color("Red");
+                        Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Change_color("Red");
                         i++;
                     }
                 }
                 else
                 {
                     stop_moving_down = false;
+                    Line_by_line();
                     Draw_figure();
                 }
             }
             catch (System.IndexOutOfRangeException)
             {
+                Line_by_line();
                 Draw_figure();
 
             }
 
-            return licznik;
+            return Score;
 
         }
 
-        public bool return_game_over()
+
+        public void Figure_left()
         {
-            //Field = new Field();
+            try
+            {
+                for (int j = 0; j < figure.check_left_left().Length - 1; j++)
+                {
+                    Single_pixel[figure.check_left_left()[j], figure.check_left_left()[j + 1]].Change_color(Single_pixel[figure.check_left_left()[j], figure.check_left_left()[j + 1]].Get_color());
+                    j++;
+                }
+                for (int l = 0; l < figure.check_left_left().Length; l++)
+                {
+                    if (Single_pixel[figure.check_left_left()[l], figure.check_left_left()[l + 1]].Get_color() == "Red")
+                    {
+                        move_availble = false;
+                    }
+                    l++;
+
+                }
+                if (move_availble == true)
+                {
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Change_color(Background_Color);
+                        i++;
+                    }
+
+                    figure.coordinates_left();
+
+
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Change_color("Red");
+                        i++;
+                    }
+                }
+                else
+                {
+                    move_availble = true;
+                }
+            }
+            catch (System.IndexOutOfRangeException)
+            {
+            }
+        }
+
+        public void Figure_right()
+        {
+            try
+            {
+                for (int j = 0; j < figure.check_right_right().Length - 1; j++)
+                {
+                    Single_pixel[figure.check_right_right()[j], figure.check_right_right()[j + 1]].Change_color(Single_pixel[figure.check_right_right()[j], figure.check_right_right()[j + 1]].Get_color());
+                    j++;
+                }
+                for (int l = 0; l < figure.check_right_right().Length; l++)
+                {
+                    if (Single_pixel[figure.check_right_right()[l], figure.check_right_right()[l + 1]].Get_color() == "Red")
+                    {
+                        move_availble = false;
+                    }
+                    l++;
+
+                }
+                if (move_availble == true)
+                {
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Change_color(Background_Color);
+                        i++;
+                    }
+
+                    figure.coordinates_right();
+
+
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Single_pixel[figure.coordinate()[i], figure.coordinate()[i + 1]].Change_color("Red");
+                        i++;
+                    }
+                }
+                else
+                {
+                    move_availble = true;
+                }
+            }
+            catch (System.IndexOutOfRangeException)
+            {
+            }
+        }
+
+        private void Line_by_line()
+        {
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    if (Single_pixel[j, i].Get_color() == Background_Color)
+                    {
+                        full_line = false;
+                    }
+                }
+                if (full_line == true)
+                {
+                    Score++;
+
+                    for (int j = 0; j < Width; j++)
+                    {
+                        for (int k = i; k >= 0; k--)
+                        {
+                            if (k != 0)
+                            {
+                                Single_pixel[j, k].Change_color(Single_pixel[j, k - 1].Get_color());
+                            }
+                            else
+                            {
+                                Single_pixel[j, k].Change_color(Background_Color);
+                            }
+
+                        }
+
+                    }
+
+                }
+                else full_line = true;
+            }
+        }
+
+        public bool Return_game_over()
+        {
             return game_over;
         }
     }
-    
+
+    #endregion
+
 }

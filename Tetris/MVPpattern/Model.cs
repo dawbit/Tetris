@@ -12,15 +12,37 @@ namespace Tetris
 
         public Rectangle[] Load_Panel_Rectangle()
         {
-            return field.square_dimensions();
+            return field.Square_dimensions();
         }
+
         public Color[] Load_Panel_Color()
         {
-            return field.color_name();
+            return field.Color_name();
         }
+
         public void Startgame()
         {
             field.Draw_figure();
+        }
+
+        public int Figure_down()
+        {
+            return field.Figure_down();
+        }
+
+        public bool End_game_check()
+        {
+            return field.Return_game_over();
+        }
+
+        public void Left_Arrow_Model()
+        {
+            field.Figure_left();
+        }
+
+        public void Right_Arrow_Model()
+        {
+            field.Figure_right();
         }
     }
 }
