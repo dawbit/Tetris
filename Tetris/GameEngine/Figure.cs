@@ -26,59 +26,59 @@ namespace Tetris
             switch (tertimino)
             {
                 case 0:
-                    // Tertimino "l"
-                    start = new int[8] { 4, 0, 4, 1, 4, 2, 4, 3 };
-                    check_floor = new int[2] { 4, 4 };
-                    check_left = new int[8] { 3, 0, 3, 1, 3, 2, 3, 3 };
-                    check_right = new int[8] { 5, 0, 5, 1, 5, 2, 5, 3, };
+                    // Tetrimino "l"
+                    start = new int[8] { 5, 0, 5, 1, 5, 2, 5, 3 };
+                    check_floor = new int[2] { 5, 4 };
+                    check_left = new int[8] { 4, 0, 4, 1, 4, 2, 4, 3 };
+                    check_right = new int[8] { 6, 0, 6, 1, 6, 2, 6, 3 };
                     break;
 
                 case 1:
-                    // Tertimino "O"
-                    start = new int[8] { 4, 0, 5, 0, 4, 1, 5, 1 };
-                    check_floor = new int[4] { 4, 2, 5, 2 };
-                    check_left = new int[4] { 3, 0, 3, 1 };
-                    check_right = new int[4] { 6, 0, 6, 1 };
-                    break;
-
-                case 2:
-                    // Tertimino "T"
+                    // Tetrimino "T"
                     start = new int[8] { 4, 0, 5, 0, 6, 0, 5, 1 };
                     check_floor = new int[6] { 4, 1, 6, 1, 5, 2 };
                     check_left = new int[4] { 3, 0, 4, 1 };
                     check_right = new int[4] { 7, 0, 6, 1 };
                     break;
 
+                case 2:
+                    // Tetrimino "O"
+                    start = new int[8] { 5, 0, 6, 0, 5, 1, 6, 1 };
+                    check_floor = new int[4] { 5, 2, 6, 2 };
+                    check_left = new int[4] { 4, 0, 4, 1 };
+                    check_right = new int[4] { 7, 0, 7, 1 };
+                    break;
+
                 case 3:
-                    // Tertimino "" do poprawy
-                    start = new int[8] { 4, 0, 5, 0, 5, 1, 5, 2 };
-                    check_floor = new int[4] { 4, 1, 5, 3 };
-                    check_left = new int[6] { 3, 0, 4, 1, 4, 2 };
-                    check_right = new int[6] { 6, 0, 6, 1, 6, 2 };
+                    // Tetrimino "L"
+                    start = new int[8] { 5, 0, 5, 1, 5, 2, 6, 2 };
+                    check_floor = new int[4] { 5, 3, 6, 3 };
+                    check_left = new int[6] { 4, 0, 4, 1, 4, 2 };
+                    check_right = new int[6] { 6, 0, 6, 1, 7, 2 };
                     break;
 
                 case 4:
-                    // Tertimino "do poprawy
-                    start = new int[8] { 5, 0, 4, 0, 4, 1, 4, 2 };
-                    check_floor = new int[4] { 4, 3, 5, 1 };
-                    check_left = new int[6] { 3, 0, 3, 1, 3, 2 };
-                    check_right = new int[6] { 6, 0, 5, 1, 5, 2 };
+                    // Tetrimino "J"
+                    start = new int[8] { 4, 2, 5, 0, 5, 1, 5, 2 };
+                    check_floor = new int[4] { 4, 3, 5, 3 };
+                    check_left = new int[6] { 4, 0, 4, 1, 3, 2 };
+                    check_right = new int[6] { 6, 0, 6, 1, 6, 2 };
                     break;
 
                 case 5:
-                    // Tertimino "Z"
+                    // Tetrimino "S"
+                    start = new int[8] { 4, 1, 5, 0, 5, 1, 6, 0 };
+                    check_floor = new int[6] { 4, 2, 5, 2, 6, 1 };
+                    check_left = new int[4] { 4, 0, 3, 1 };
+                    check_right = new int[4] { 7, 0, 6, 1 };
+                    break;
+
+                case 6:
+                    // Tetrimino "Z"
                     start = new int[8] { 4, 0, 5, 0, 5, 1, 6, 1 };
                     check_floor = new int[6] { 4, 1, 5, 2, 6, 2 };
                     check_left = new int[4] { 3, 0, 4, 1 };
                     check_right = new int[4] { 6, 0, 7, 1 };
-                    break;
-
-                case 6:
-                    // Tertimino "S"
-                    start = new int[8] { 5, 0, 4, 0, 4, 1, 3, 1 };
-                    check_floor = new int[6] { 3, 2, 4, 2, 5, 1 };
-                    check_left = new int[4] { 3, 0, 2, 1 };
-                    check_right = new int[4] { 6, 0, 5, 1 };
                     break;
 
             }

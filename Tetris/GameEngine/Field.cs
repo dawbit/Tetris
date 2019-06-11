@@ -21,7 +21,7 @@ namespace Tetris
 
         private static int Width = 11;
         private static int Height = 20;
-        private static int WxH = 220;
+        private static int WxH = Width*Height;
         private int Score;
 
         private readonly SinglePixel[,] Single_pixel = new SinglePixel[Width, Height];
