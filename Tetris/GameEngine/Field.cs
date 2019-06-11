@@ -14,7 +14,7 @@ namespace Tetris
         private Rectangle[] tab_rec;
         private Color[] color_field;
 
-        private bool stop_moving_down = false;
+        private bool stop_falling = false;
         private bool game_over = false;
         private bool move_availble = true;
         private bool full_line = false;
@@ -133,12 +133,12 @@ namespace Tetris
                 {
                     if (Single_pixel[figure.Check_floor()[l], figure.Check_floor()[l + 1]].Get_color() != Background_Color)
                     {
-                        stop_moving_down = true;
+                        stop_falling = true;
                     }
                     l++;
 
                 }
-                if (stop_moving_down == false)
+                if (stop_falling == false)
                 {
                     for (int i = 0; i < figure.Coordinate().Length; i++)
                     {
@@ -155,7 +155,7 @@ namespace Tetris
                 }
                 else
                 {
-                    stop_moving_down = false;
+                    stop_falling = false;
                     Line_by_line();
                     Draw_Tertimino();
                 }

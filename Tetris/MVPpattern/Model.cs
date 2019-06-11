@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+
 namespace Tetris
 {
     class Model
@@ -22,6 +23,7 @@ namespace Tetris
 
         public void Startgame()
         {
+            field = new Field();
             field.Draw_Tertimino();
         }
 
