@@ -52,13 +52,13 @@ namespace Tetris
 
         private void Right_Arrow_Presenter()
         {
-            model.Right_Arrow_Model();
+            model.Right_side();
             LoadPanel();
         }
 
         private void Left_Arrow_Presenter()
         {
-            model.Left_Arrow_Model();
+            model.Left_side();
             LoadPanel();
         }
 

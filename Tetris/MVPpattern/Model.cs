@@ -32,19 +32,19 @@ namespace Tetris
             return field.Figure_down();
         }
 
-        public bool End_game_check()
-        {
-            return field.Return_game_over();
-        }
-
-        public void Left_Arrow_Model()
+        public void Left_side()
         {
             field.Figure_left();
         }
 
-        public void Right_Arrow_Model()
+        public void Right_side()
         {
             field.Figure_right();
+        }
+
+        public bool End_game_check()
+        {
+            return field.Return_game_over();
         }
     }
 }

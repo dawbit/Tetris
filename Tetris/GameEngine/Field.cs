@@ -167,7 +167,6 @@ namespace Tetris
             }
 
             return Score;
-
         }
 
 
